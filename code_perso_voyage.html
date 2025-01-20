@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Offrez une portion de voyage !</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    #map {
+      height: 100vh;
+    }
+    .price-label {
+      background-color: white;
+      padding: 5px;
+      border-radius: 5px;
+      box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+    }
+    h1 {
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #333;
+      text-align: center;
+      font-size: 1.5em;
+      font-family: 'Arial', sans-serif;
+    }
+
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    // Initialisation de la carte
+    const map = L.map('map').setView([48.8566, 2.3522], 6); // Coordonnées centrées sur la France
+
+    // Ajout d'une couche de tuiles (OpenStreetMap)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Définition des portions de voyage avec un prix
+    const portions = [
+    {
+        name: 'Paris - Wien',
+        coordinates: [[48.8566, 2.3522], [48.2082, 16.3738]],
+        reserved: false,
+        price: 40,
+    },
+    {
+        name: 'Wien - Budapest',
+        coordinates: [[48.2082, 16.3738], [47.4979, 19.0402]],
+        reserved: false,
+        price: 18,
+    },
+    {
+        name: 'Budapest - Bucarest',
+        coordinates: [[47.4979, 19.0402], [44.4268, 26.1025]],
+        reserved: false,
+        price: 40,
+    },
+    {
+        name: 'Bucarest - Istanbul',
+        coordinates: [[44.4268, 26.1025], [41.0082, 28.9784]],
+        reserved: false,
+        price: 32,
+    },
+    {
+        name: 'Istanbul - Ankara',
+        coordinates: [[41.0082, 28.9784], [39.9334, 32.8597]],
+        reserved: false,
+        price: 21,
+    },
+    {
+        name: 'Ankara - Nevsehir',
+        coordinates: [[39.9334, 32.8597], [38.6246, 34.7367]],
+        reserved: false,
+        price: 8,
+    },
+    {
+        name: 'Nevsehir - Erzurum',
+        coordinates: [[38.6246, 34.7367], [39.9334, 41.2674]],
+        reserved: false,
+        price: 14,
+    },
+    {
+        name: 'Erzurum - Batumi',
+        coordinates: [[39.9334, 41.2674], [41.6408, 41.6427]],
+        reserved: false,
+        price: 8,
+    },
+    {
+        name: 'Batumi - Tbilissi',
+        coordinates: [[41.6408, 41.6427], [41.7151, 44.8271]],
+        reserved: false,
+        price: 12,
+    },
+    {
+        name: 'Tbilissi - Vladikavkaz',
+        coordinates: [[41.7151, 44.8271], [43.0226, 44.6658]],
+        reserved: false,
+        price: 19,
+    },
+    {
+        name: 'Vladikavkaz - Elista',
+        coordinates: [[43.0226, 44.6658], [46.3524, 44.2733]],
+        reserved: false,
+        price: 21,
+    },
+    {
+        name: 'Elista - Astrakhan',
+        coordinates: [[46.3524, 44.2733], [46.3497, 48.0357]],
+        reserved: false,
+        price: 22,
+    },
+    {
+        name: 'Astrakhan - Atyrau',
+        coordinates: [[46.3497, 48.0357], [47.1093, 51.9038]],
+        reserved: false,
+        price: 40,
+    },
+    {
+        name: 'Atyrau - Nukus',
+        coordinates: [[47.1093, 51.9038], [42.4600, 59.6170]],
+        reserved: false,
+        price: 30,
+    },
+    {
+        name: 'Nukus - Bukhara',
+        coordinates: [[42.4600, 59.6170], [39.7794, 64.4209]],
+        reserved: false,
+        price: 17,
+    },
+    {
+        name: 'Bukhara - Samarkand',
+        coordinates: [[39.7794, 64.4209], [39.6542, 66.9597]],
+        reserved: false,
+        price: 12,
+    },
+    {
+        name: 'Samarkand - Tashkent',
+        coordinates: [[39.6542, 66.9597], [41.2995, 69.2401]],
+        reserved: false,
+        price: 19,
+    },
+    {
+        name: 'Tashkent - Bishkek',
+        coordinates: [[41.2995, 69.2401], [42.8746, 74.6127]],
+        reserved: false,
+        price: 26,
+    },
+    {
+        name: 'Bishkek - Karakol',
+        coordinates: [[42.8746, 74.6127], [42.4924, 78.3982]],
+        reserved: false,
+        price: 6,
+    },
+    {
+        name: 'Karakol - Almaty',
+        coordinates: [[42.4924, 78.3982], [43.2220, 76.8512]],
+        reserved: false,
+        price: 12,
+    },
+    {
+        name: 'Almaty - Urumqi',
+        coordinates: [[43.2220, 76.8512], [43.8256, 87.6189]],
+        reserved: false,
+        price: 70,
+    },
+    {
+        name: 'Urumqi - Beijing',
+        coordinates: [[43.8256, 87.6189], [39.9042, 116.4074]],
+        reserved: false,
+        price: 60,
+    },
+    {
+        name: 'Beijing - Chongqing',
+        coordinates: [[39.9042, 116.4074], [29.5630, 106.5516]],
+        reserved: false,
+        price: 100,
+    },
+    {
+        name: 'Chongqing - Hanoï',
+        coordinates: [[29.5630, 106.5516], [21.0285, 105.8542]],
+        reserved: false,
+        price: 70,
+    },
+    {
+        name: 'Hanoï - Da Nang',
+        coordinates: [[21.0285, 105.8542], [16.0471, 108.2069]],
+        reserved: false,
+        price: 17,
+    }
+    ];
+
+
+
+    // Fonction pour ajuster la taille de l'étiquette en fonction du niveau de zoom
+    function adjustPriceLabelSize() {//+
+      const zoomLevel = map.getZoom();//+
+      const baseZoomLevel = 6;//+
+      // Implement the size adjustment logic here//+
+    }//+
+
+    // Détection du changement de zoom et ajustement de la taille des étiquettes//+
+    map.on('zoom', adjustPriceLabelSize);//+
+
+    // Ajout des portions à la carte avec couleur rouge par défaut et prix
+    portions.forEach((portion, index) => {
+    const polyline = L.polyline(portion.coordinates, { color: portion.reserved ? 'green' : 'red' }).addTo(map);
+
+    // Ajouter un point au début de la polyline
+    const startPoint = portion.coordinates[0];
+    L.marker(startPoint).addTo(map);
+
+    // Ajouter un point à la fin de la polyline
+    const endPoint = portion.coordinates[portion.coordinates.length - 1];
+    L.marker(endPoint).addTo(map);
+
+      // Calculer le centre de la portion pour placer l'icône du prix
+      const center = polyline.getCenter();
+
+
+      // Ajouter un popup avec des options pour réserver ou annuler
+      polyline.bindPopup(`
+        <b>${portion.name}</b><br>
+        <strong>Prix: ${portion.price} €</strong><br>
+        <button onclick="reservePortion(${index})" ${portion.reserved ? 'disabled' : ''}>Offrir cette portion</button><br>
+        ${portion.reserved ? `<button onclick="cancelReservation(${index})">Annuler réservation</button>` : '' }
+        <br><br>
+        <label for="fromName-${index}">De la part de :</label>
+        <input type="text" id="fromName-${index}" placeholder="Votre nom" /><br><br>
+        <label for="message-${index}">Un petit mot à ajouter ?</label>
+        <input type="text" id="message-${index}" placeholder="Votre message" />
+      `);
+      portion.polyline = polyline; // Sauvegarde du polyline pour la mise à jour
+    });
+
+    // Fonction pour réserver une portion
+    function reservePortion(index) {
+      const portion = portions[index];
+      const fromName = document.getElementById(`fromName-${index}`).value;
+      const message = document.getElementById(`message-${index}`).value;
+
+      if (!fromName || !message) {
+        alert('Veuillez remplir tous les champs.');
+        return;
+      }
+
+      fetch('http://localhost:3001/reserve', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: portion.name, fromName, message })
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.message) {
+            alert(data.message);
+            // Mise à jour de l'état de la portion
+            portion.reserved = true;
+            portion.polyline.setStyle({ color: 'green' });
+            portion.polyline.getPopup().setContent(`
+              <b>${portion.name}</b><br>
+              <strong>Prix: ${portion.price} €</strong><br>
+              <button onclick="cancelReservation(${index})">Annuler réservation</button>
+            `);
+          } else {
+            alert('Une erreur est survenue.');
+          }
+        })
+        .catch(err => {
+          console.error(err);
+          alert('Erreur de communication avec le serveur.');
+        });
+    }
+
+    // Fonction pour annuler une réservation
+    function cancelReservation(index) {
+      const portion = portions[index];
+
+      fetch('http://localhost:3001/cancel', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: portion.name })
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.message) {
+            alert(data.message);
+            portion.reserved = false;
+            portion.polyline.setStyle({ color: 'red' });
+            portion.polyline.getPopup().setContent(`
+              <b>${portion.name}</b><br>
+              <strong>Prix: ${portion.price} €</strong><br>
+              <button onclick="reservePortion(${index})">Offrir cette portion</button>
+              <button onclick="reservePortion(${index})">Offrir cette portion</button><br>
+              <label for="fromName-${index}">De la part de :</label>
+              <input type="text" id="fromName-${index}" placeholder="Votre nom" ><br><br>
+              <label for="message-${index}">Un petit mot à ajouter ?</label>
+              <input type="text" id="message-${index}" placeholder="Votre message">
+            `);
+          } else {
+            alert('Une erreur est survenue.');
+          }
+        })
+        .catch(err => {
+          console.error(err);
+          alert('Erreur de communication avec le serveur.');
+        });
+    }
+  </script>
+</body>
+</html>

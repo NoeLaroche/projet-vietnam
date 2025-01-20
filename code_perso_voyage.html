@@ -247,7 +247,7 @@
         return;
       }
 
-      fetch('http://localhost:3001/reserve', {
+      fetch('https://projet-vietnam-backend.onrender.com', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: portion.name, fromName, message })

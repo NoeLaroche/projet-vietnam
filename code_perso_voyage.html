@@ -278,7 +278,7 @@
     function cancelReservation(index) {
       const portion = portions[index];
 
-      fetch('https://projet-vietnam-backend.onrender.com', {
+      fetch('https://projet-vietnam-backend.onrender.com/cancel', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: portion.name })

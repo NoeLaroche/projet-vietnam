@@ -1,0 +1,12 @@
+{
+    "type": "service_account",
+    "project_id": "projet-vietnam-b5c75",
+    "private_key_id": "1:491012491063:web:a553e7b3f5d757877cfcb2",
+    "private_key": "AIzaSyCboMogb2wKXg5vVAwAaseUfObLwh2SShA",
+    "client_email": "firebase-adminsdk-xxxxx@projet-vietnam-b5c75.iam.gserviceaccount.com",
+    "client_id": "your-client-id",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-xxxxx%40projet-vietnam-b5c75.iam.gserviceaccount.com"
+}

@@ -7,13 +7,19 @@ const app = express();
 const PORT = 3001;
 
 // Initialize Firebase Admin SDK
+
 let serviceAccount;
 
 if (process.env.NODE_ENV === 'production') {
-  // For production, load the service account from an environment variable
-  serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+  // For production, parse the service account JSON from the environment variable
+  try {
+    serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+  } catch (error) {
+    console.error('Failed to parse FIREBASE_SERVICE_ACCOUNT:', error);
+    process.exit(1); // Exit with failure
+  }
 } else {
-  // For local development, load the service account from a file
+  // For development, load the service account from a local file
   serviceAccount = require(path.resolve('/Users/macbook/Downloads/projet-vietnam-b5c75-firebase-adminsdk-fbsvc-06a5382cd2.json'));
 }
 

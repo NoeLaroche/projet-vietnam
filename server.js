@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const admin = require('firebase-admin');
 
 // Initialize Firebase Admin SDK
-const serviceAccount = require('reservations.json'); // Replace with your Firebase Admin SDK JSON file path
+const serviceAccount = require('https://console.firebase.google.com/project/projet-vietnam-b5c75/firestore/data/~2Fvoyage~2Freservations.json?hl=fr'); // Replace with your Firebase Admin SDK JSON file path
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),

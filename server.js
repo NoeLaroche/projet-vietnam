@@ -21,6 +21,19 @@ const serviceAccount = {
   "universe_domain": "googleapis.com"
 };
 
+const cors = require('cors');
+
+// Allow all origins for simplicity (restrict in production as needed)
+app.use(cors());
+
+// OR: Configure specific origins
+app.use(cors({
+  origin: ['https://noelaroche.github.io/projet-vietnam/code_perso_voyage.html'], // Replace with allowed frontend domains
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+
 // Initialize Firebase Admin SDK
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),

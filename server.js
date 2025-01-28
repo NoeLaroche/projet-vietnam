@@ -1,19 +1,28 @@
-
 const express = require('express');
 const bodyParser = require('body-parser');
 const admin = require('firebase-admin');
+const path = require('path');
+
+const app = express();
+const PORT = 3001;
 
 // Initialize Firebase Admin SDK
-const serviceAccount = require('https://console.firebase.google.com/project/projet-vietnam-b5c75/firestore/data/~2Fvoyage~2Freservations.json?hl=fr'); // Replace with your Firebase Admin SDK JSON file path
+let serviceAccount;
+
+if (process.env.NODE_ENV === 'production') {
+  // For production, load the service account from an environment variable
+  serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+} else {
+  // For local development, load the service account from a file
+  serviceAccount = require(path.resolve('/Users/macbook/Downloads/projet-vietnam-b5c75-firebase-adminsdk-fbsvc-06a5382cd2.json'));
+}
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: 'https://projet-vietnam-b5c75-default-rtdb.firebaseio.com/', // Replace with your Firebase database URL
+  databaseURL: 'https://projet-vietnam-b5c75-default-rtdb.firebaseio.com/',
 });
 
 const db = admin.database();
-const app = express();
-const PORT = 3001;
 
 app.use(bodyParser.json());
 app.use((req, res, next) => {
@@ -72,7 +81,7 @@ app.post('/cancel', async (req, res) => {
     }
 
     const updates = {};
-    snapshot.forEach(child => {
+    snapshot.forEach((child) => {
       updates[child.key] = null; // Mark for deletion
     });
 

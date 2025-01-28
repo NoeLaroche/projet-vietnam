@@ -17,6 +17,7 @@
     "express": "^4.21.2"
   },
   "devDependencies": {
-    "gh-pages": "^6.3.0"
+    "gh-pages": "^6.3.0",
+    "firebase-admin": "^11.0.0"
   }
 }

@@ -33,7 +33,7 @@ app.use(bodyParser.json());
 // Initialize Firebase Admin SDK
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: 'https://projet-vietnam-b5c75.firebaseio.com',
+  databaseURL: 'https://projet-vietnam-b5c75-default-rtdb.firebaseio.com/',
 });
 console.log('Firebase Admin SDK initialized successfully!');
 
